@@ -16,7 +16,7 @@
 ## 2. Tech Stack
 
 - Language         : TypeScript
-- Framework        : Expo SDK 56 + Expo Router (file-based navigation)
+- Framework        : Expo SDK 54 + Expo Router (file-based navigation)
 - Styling          : NativeWind v4 (Tailwind CSS for React Native)
 - UI Library       : Custom components + @expo/vector-icons
 - Database         : Firebase (Firestore + Auth + Storage)
