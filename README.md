@@ -1,5 +1,5 @@
 # eduVaccin 👶💉
-**Health-Baby-Edu-Vaccin (eduVaccin)** is a premium, feature-rich React Native mobile application built with **Expo SDK 56**, designed to assist parents in managing, tracking, and predicting their babies' vaccination schedules.
+**Health-Baby-Edu-Vaccin (eduVaccin)** is a premium, feature-rich React Native mobile application built with **Expo SDK 54**, designed to assist parents in managing, tracking, and predicting their babies' vaccination schedules.
 
 The app combines advanced automated prediction of national immunization schedules, a dynamic parent-baby dashboard, child growth trackers, health educational resources (articles, video integration, quizzes), and interactive teleconsultation capabilities with real-time Firebase-driven state synchronization.
 
@@ -43,7 +43,7 @@ The app combines advanced automated prediction of national immunization schedule
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Expo SDK 56 (with Expo Router file-based navigation)
+- **Framework**: Expo SDK 54 (with Expo Router file-based navigation)
 - **Language**: TypeScript
 - **Styling**: NativeWind v4 (Tailwind CSS styled for React Native)
 - **Typography**: Poppins (Headings/Titles) and Work Sans (Body/Texts)
