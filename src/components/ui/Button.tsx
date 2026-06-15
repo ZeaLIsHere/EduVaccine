@@ -1,5 +1,5 @@
-import React from 'react';
-import { TouchableOpacity, Text, ActivityIndicator, ViewStyle } from 'react-native';
+import React, { useRef } from 'react';
+import { Animated, Text, ActivityIndicator, ViewStyle, Pressable } from 'react-native';
 import { clsx } from 'clsx';
 
 interface ButtonProps {
@@ -25,6 +25,26 @@ export function Button({
   fullWidth = true,
   style,
 }: ButtonProps): React.ReactElement {
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  function handlePressIn(): void {
+    Animated.spring(scaleAnim, {
+      toValue: 0.96,
+      useNativeDriver: true,
+      speed: 30,
+      bounciness: 4,
+    }).start();
+  }
+
+  function handlePressOut(): void {
+    Animated.spring(scaleAnim, {
+      toValue: 1,
+      useNativeDriver: true,
+      speed: 20,
+      bounciness: 6,
+    }).start();
+  }
+
   const baseClasses = 'flex-row items-center justify-center rounded-button';
 
   const variantClasses = {
@@ -54,39 +74,41 @@ export function Button({
   };
 
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      disabled={disabled || loading}
-      className={clsx(
-        baseClasses,
-        variantClasses[variant],
-        sizeClasses[size],
-        fullWidth && 'w-full',
-        disabled && 'opacity-50'
-      )}
-      style={style}
-      activeOpacity={0.8}
-    >
-      {loading ? (
-        <ActivityIndicator
-          color={variant === 'primary' || variant === 'danger' ? '#FFFFFF' : '#1A6B8A'}
-          size="small"
-        />
-      ) : (
-        <>
-          {icon && <>{icon}</>}
-          <Text
-            className={clsx(
-              'font-poppins-semibold',
-              textVariantClasses[variant],
-              textSizeClasses[size],
-              icon ? 'ml-2' : ''
-            )}
-          >
-            {title}
-          </Text>
-        </>
-      )}
-    </TouchableOpacity>
+    <Animated.View style={[{ transform: [{ scale: scaleAnim }] }, fullWidth && { width: '100%' }]}>
+      <Pressable
+        onPress={onPress}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        disabled={disabled || loading}
+        className={clsx(
+          baseClasses,
+          variantClasses[variant],
+          sizeClasses[size],
+          disabled && 'opacity-50'
+        )}
+        style={style}
+      >
+        {loading ? (
+          <ActivityIndicator
+            color={variant === 'primary' || variant === 'danger' ? '#FFFFFF' : '#1A6B8A'}
+            size="small"
+          />
+        ) : (
+          <>
+            {icon && <>{icon}</>}
+            <Text
+              className={clsx(
+                'font-poppins-semibold',
+                textVariantClasses[variant],
+                textSizeClasses[size],
+                icon ? 'ml-2' : ''
+              )}
+            >
+              {title}
+            </Text>
+          </>
+        )}
+      </Pressable>
+    </Animated.View>
   );
 }

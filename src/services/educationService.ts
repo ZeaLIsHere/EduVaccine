@@ -1,42 +1,77 @@
 import {
   collection,
   getDocs,
+  getDoc,
   query,
   where,
   orderBy,
   limit,
+  startAfter,
   doc,
   setDoc,
   Timestamp,
+  DocumentSnapshot,
+  QueryDocumentSnapshot,
 } from 'firebase/firestore';
 import { db } from './firebase';
-import { EducationContent, QuizQuestion, QuizResult } from '../types';
+import { EducationContent, EducationContentDetail, QuizQuestion, QuizResult } from '../types';
 
 const ARTICLES_COLLECTION = 'educationContent';
 const QUIZZES_COLLECTION = 'quizzes';
 const RESULTS_COLLECTION = 'quizResults';
 
+const DEFAULT_PAGE_SIZE = 10;
+
+export interface PaginatedResult<T> {
+  items: T[];
+  lastDoc: QueryDocumentSnapshot | null;
+  hasMore: boolean;
+}
+
 export async function getEducationContent(
-  type?: 'article' | 'infographic' | 'video'
-): Promise<EducationContent[]> {
+  type?: 'article' | 'infographic' | 'video',
+  pageSize: number = DEFAULT_PAGE_SIZE,
+  lastDoc?: QueryDocumentSnapshot | null
+): Promise<PaginatedResult<EducationContent>> {
   try {
-    let q;
-    if (type) {
-      q = query(
-        collection(db, ARTICLES_COLLECTION),
-        where('type', '==', type),
-        orderBy('createdAt', 'desc')
-      );
-    } else {
-      q = query(
-        collection(db, ARTICLES_COLLECTION),
-        orderBy('createdAt', 'desc')
-      );
-    }
+    const constraints = [
+      ...(type ? [where('type', '==', type)] : []),
+      orderBy('createdAt', 'desc'),
+      limit(pageSize + 1),
+      ...(lastDoc ? [startAfter(lastDoc)] : []),
+    ];
+
+    const q = query(collection(db, ARTICLES_COLLECTION), ...constraints);
     const snapshot = await getDocs(q);
-    return snapshot.docs.map((d) => d.data() as EducationContent);
+    const docs = snapshot.docs;
+
+    const hasMore = docs.length > pageSize;
+    const items = docs
+      .slice(0, pageSize)
+      .map((d) => {
+        const data = d.data();
+        const { content: _content, ...metadata } = data;
+        return metadata as EducationContent;
+      });
+
+    return {
+      items,
+      lastDoc: items.length > 0 ? docs[items.length - 1] : null,
+      hasMore,
+    };
   } catch (error) {
     throw new Error('Gagal mengambil konten edukasi.');
+  }
+}
+
+export async function getEducationContentById(id: string): Promise<EducationContentDetail | null> {
+  try {
+    const docRef = doc(db, ARTICLES_COLLECTION, id);
+    const snapshot = await getDoc(docRef);
+    if (!snapshot.exists()) return null;
+    return snapshot.data() as EducationContentDetail;
+  } catch (error) {
+    throw new Error('Gagal mengambil detail konten.');
   }
 }
 
@@ -49,7 +84,9 @@ export async function getFeaturedContent(): Promise<EducationContent | null> {
     );
     const snapshot = await getDocs(q);
     if (snapshot.docs.length > 0) {
-      return snapshot.docs[0].data() as EducationContent;
+      const data = snapshot.docs[0].data();
+      const { content: _content, ...metadata } = data;
+      return metadata as EducationContent;
     }
     return null;
   } catch (error) {
@@ -59,7 +96,8 @@ export async function getFeaturedContent(): Promise<EducationContent | null> {
 
 export async function getQuizQuestions(): Promise<QuizQuestion[]> {
   try {
-    const snapshot = await getDocs(collection(db, QUIZZES_COLLECTION));
+    const q = query(collection(db, QUIZZES_COLLECTION), limit(20));
+    const snapshot = await getDocs(q);
     return snapshot.docs.map((d) => d.data() as QuizQuestion);
   } catch (error) {
     throw new Error('Gagal mengambil soal kuis.');
@@ -92,7 +130,8 @@ export async function getQuizResults(userId: string): Promise<QuizResult[]> {
     const q = query(
       collection(db, RESULTS_COLLECTION),
       where('userId', '==', userId),
-      orderBy('completedAt', 'desc')
+      orderBy('completedAt', 'desc'),
+      limit(20)
     );
     const snapshot = await getDocs(q);
     return snapshot.docs.map((d) => d.data() as QuizResult);

@@ -57,13 +57,21 @@ export interface EducationContent {
   type: 'article' | 'infographic' | 'video';
   title: string;
   description: string;
-  imageUrl: string;
   category: string;
-  readTime: string;
   featured: boolean;
-  content: string;
-  videoUrl?: string;
   createdAt: Timestamp;
+
+  imageUrl?: string;
+  thumbnailUrl?: string;
+
+  videoId?: string;
+  videoDuration?: string;
+
+  readTime?: string;
+}
+
+export interface EducationContentDetail extends EducationContent {
+  content: string;
 }
 
 export interface QuizQuestion {
@@ -151,4 +159,9 @@ export interface FeedbackData {
   comment: string;
   userId: string;
   createdAt: Timestamp;
+}
+
+export interface PaginationCursor {
+  lastDocId: string | null;
+  hasMore: boolean;
 }

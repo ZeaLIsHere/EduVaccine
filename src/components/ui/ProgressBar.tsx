@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { View, Text, Animated } from 'react-native';
 
 interface ProgressBarProps {
@@ -17,6 +17,21 @@ export function ProgressBar({
   backgroundColor = '#E8F4F8',
 }: ProgressBarProps): React.ReactElement {
   const clampedPercentage = Math.min(100, Math.max(0, percentage));
+  const animatedWidth = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.spring(animatedWidth, {
+      toValue: clampedPercentage,
+      useNativeDriver: false,
+      speed: 4,
+      bounciness: 2,
+    }).start();
+  }, [clampedPercentage, animatedWidth]);
+
+  const widthInterpolated = animatedWidth.interpolate({
+    inputRange: [0, 100],
+    outputRange: ['0%', '100%'],
+  });
 
   return (
     <View>
@@ -34,11 +49,12 @@ export function ProgressBar({
         className="w-full rounded-full overflow-hidden"
         style={{ height, backgroundColor }}
       >
-        <View
-          className="h-full rounded-full"
+        <Animated.View
           style={{
-            width: `${clampedPercentage}%`,
+            width: widthInterpolated,
+            height: '100%',
             backgroundColor: color,
+            borderRadius: 999,
           }}
         />
       </View>

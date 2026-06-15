@@ -1,188 +1,188 @@
 # eduVaccin 👶💉
-**Health-Baby-Edu-Vaccin (eduVaccin)** is a premium, feature-rich React Native mobile application built with **Expo SDK 54**, designed to assist parents in managing, tracking, and predicting their babies' vaccination schedules.
+**Health-Baby-Edu-Vaccin (eduVaccin)** adalah aplikasi mobile React Native yang kaya fitur dan premium, dibangun dengan **Expo SDK 54**, dirancang untuk membantu para orang tua dalam mengelola, memantau, dan memprediksi jadwal vaksinasi bayi mereka.
 
-The app combines advanced automated prediction of national immunization schedules, a dynamic parent-baby dashboard, child growth trackers, health educational resources (articles, video integration, quizzes), and interactive teleconsultation capabilities with real-time Firebase-driven state synchronization.
+Aplikasi ini menggabungkan prediksi otomatis jadwal imunisasi nasional, dashboard dinamis orang tua-bayi, pelacak tumbuh kembang anak, sumber edukasi kesehatan (artikel, integrasi video, kuis), serta kemampuan telekonsultasi interaktif dengan sinkronisasi status berbasis Firebase secara real-time.
 
 ---
 
-## ✨ Key Features
+## ✨ Fitur Utama
 
-1. **Dashboard (Home Screen)**
-   - Overview of baby profile and status.
-   - Quick-access shortcuts to key features.
-   - Smart timeline for upcoming vaccine schedules.
-   - Growth metrics charts (weight, height, head circumference).
+1. **Dashboard (Beranda)**
+   - Ringkasan profil dan status bayi.
+   - Pintasan akses cepat ke fitur-fitur utama.
+   - Timeline cerdas untuk jadwal vaksin mendatang.
+   - Grafik metrik pertumbuhan (berat badan, tinggi badan, lingkar kepala).
 
-2. **Profil Bayi (Baby Profile & Predictive Schedule)**
-   - Add/manage child profiles (Name, Gender, Date of Birth).
-   - Generates an automated, fully dynamic immunization plan based on the Indonesian National Immunization Schedule.
-   - Real-time age calculations.
+2. **Profil Bayi (Profil Bayi & Prediksi Jadwal)**
+   - Tambah/kelola profil anak (Nama, Jenis Kelamin, Tanggal Lahir).
+   - Menghasilkan rencana imunisasi otomatis yang sepenuhnya dinamis berdasarkan Jadwal Imunisasi Nasional Indonesia.
+   - Kalkulasi usia secara real-time.
 
-3. **Pusat Edukasi (Education Hub)**
-   - Curated articles on parenting and immunization.
-   - Video center with inline playback tracking.
-   - Interactive quizzes (post-tests) to reinforce child care knowledge with dynamic scoreboards.
+3. **Pusat Edukasi**
+   - Artikel terkurasi seputar parenting dan imunisasi.
+   - Pusat video dengan pelacakan pemutaran inline.
+   - Kuis interaktif (post-test) untuk memperkuat pengetahuan pengasuhan anak dengan papan skor dinamis.
 
-4. **Pengingat Imunisasi (Calendar & Reminders)**
-   - Full calendar interface mapping out past and future vaccinations.
-   - Built-in notifications scheduled at H-7 and H-1 to ensure no vaccine is missed.
+4. **Pengingat Imunisasi (Kalender & Pengingat)**
+   - Antarmuka kalender lengkap yang memetakan vaksinasi masa lalu dan mendatang.
+   - Notifikasi bawaan yang dijadwalkan pada H-7 dan H-1 agar tidak ada vaksin yang terlewat.
 
-5. **Pemantauan & Catatan (Growth Monitoring & Journal)**
-   - Log growth measurements (Weight, Height, Head Circumference).
-   - Dynamic health journal notes to record temperature, symptoms, or reactions post-vaccination.
+5. **Pemantauan & Catatan (Pemantauan Tumbuh Kembang & Jurnal)**
+   - Catat pengukuran tumbuh kembang (Berat Badan, Tinggi Badan, Lingkar Kepala).
+   - Catatan jurnal kesehatan dinamis untuk merekam suhu, gejala, atau reaksi pasca-vaksinasi.
 
-6. **Konsultasi & Info Kesehatan (Teleconsultation Directory)**
-   - Interactive chat simulator connecting parents with certified pediatricians and health workers.
-   - Integrated directory listing nearby clinics, hospitals, and medical practitioners.
+6. **Konsultasi & Info Kesehatan (Direktori Telekonsultasi)**
+   - Simulator chat interaktif yang menghubungkan orang tua dengan dokter anak dan tenaga kesehatan bersertifikat.
+   - Direktori terintegrasi yang menampilkan klinik, rumah sakit, dan praktisi medis terdekat.
 
-7. **Report & Analisis (Parent Analytics & Admin Panel)**
-   - Detailed user dashboard with rich data visualizations (donut charts for completion rates, bar charts for monthly developmental growth).
-   - Comprehensive **Admin Dashboard** allowing administrative users to view total usage statistics, most-watched videos, real-time immunization metrics, and customer feedback.
+7. **Report & Analisis (Analitik Orang Tua & Panel Admin)**
+   - Dashboard pengguna yang mendetail dengan visualisasi data yang kaya (donut chart untuk tingkat penyelesaian, bar chart untuk pertumbuhan bulanan).
+   - **Dashboard Admin** komprehensif yang memungkinkan pengguna administratif melihat statistik penggunaan total, video paling banyak ditonton, metrik imunisasi real-time, dan umpan balik pelanggan.
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Expo SDK 54 (with Expo Router file-based navigation)
-- **Language**: TypeScript
-- **Styling**: NativeWind v4 (Tailwind CSS styled for React Native)
-- **Typography**: Poppins (Headings/Titles) and Work Sans (Body/Texts)
+- **Framework**: Expo SDK 54 (dengan navigasi berbasis file Expo Router)
+- **Bahasa**: TypeScript
+- **Styling**: NativeWind v4 (Tailwind CSS yang dioptimalkan untuk React Native)
+- **Tipografi**: Poppins (Judul/Heading) dan Work Sans (Isi/Teks)
 - **Database & Auth**: Firebase v11 (Firestore, Firebase Auth, Firebase Storage)
-- **State Management**: Zustand (highly performant, isolated domain stores)
-- **UI Architecture**: Custom responsive grid design system with `@expo/vector-icons` and SVG-based charts.
+- **State Management**: Zustand (store per domain yang berperforma tinggi dan terisolasi)
+- **Arsitektur UI**: Sistem desain grid responsif kustom dengan `@expo/vector-icons` dan grafik berbasis SVG.
 
 ---
 
-## 🚀 How to Run the Project Locally
+## 🚀 Cara Menjalankan Proyek Secara Lokal
 
-### 1. Prerequisites
-Ensure you have the following installed on your system:
-- **Node.js** (v18.x or newer recommended)
-- **npm** (comes packaged with Node.js)
-- **Git** (for version control)
-- **Expo Go** app installed on your physical mobile device (Android/iOS) OR an **Emulator** (Android Studio / Xcode Simulator).
+### 1. Prasyarat
+Pastikan hal-hal berikut sudah terinstal di sistem Anda:
+- **Node.js** (v18.x atau lebih baru direkomendasikan)
+- **npm** (sudah termasuk bersama Node.js)
+- **Git** (untuk version control)
+- Aplikasi **Expo Go** yang sudah terinstal di perangkat mobile fisik Anda (Android/iOS) ATAU sebuah **Emulator** (Android Studio / Xcode Simulator).
 
 ---
 
-### 2. Installation Steps
+### 2. Langkah Instalasi
 
-1. **Clone the repository and navigate to the project directory:**
+1. **Clone repositori dan navigasikan ke direktori proyek:**
    ```bash
    cd EduVaccine
    ```
 
-2. **Install the dependencies:**
+2. **Install dependensi:**
    ```bash
    npm install
    ```
 
-3. **Set up Environment Variables:**
-   - Locate the `.env.example` file in the root directory.
-   - Create a copy named `.env`:
+3. **Siapkan Environment Variables:**
+   - Temukan file `.env.example` di direktori root.
+   - Buat salinan dengan nama `.env`:
      ```bash
      cp .env.example .env
      ```
-   - Open `.env` and fill in your Firebase configuration keys:
+   - Buka `.env` dan isi kunci konfigurasi Firebase Anda:
      ```env
-     EXPO_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
-     EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-     EXPO_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
-     EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-     EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-     EXPO_PUBLIC_FIREBASE_APP_ID=your_app_id
-     EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID=your_measurement_id
+     EXPO_PUBLIC_FIREBASE_API_KEY=api_key_firebase_anda
+     EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=project_anda.firebaseapp.com
+     EXPO_PUBLIC_FIREBASE_PROJECT_ID=id_project_anda
+     EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=project_anda.appspot.com
+     EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=sender_id_anda
+     EXPO_PUBLIC_FIREBASE_APP_ID=app_id_anda
+     EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID=measurement_id_anda
      ```
 
 ---
 
-### 3. Running the App
+### 3. Menjalankan Aplikasi
 
-Run the following command in the root folder to start the Expo developer server:
+Jalankan perintah berikut di folder root untuk memulai server developer Expo:
 
 ```bash
 npm start
 ```
 
-Or you can use:
+Atau Anda bisa menggunakan:
 ```bash
 npx expo start
 ```
 
-This will spin up the Expo Metro Bundler. You will see a QR code generated in your terminal.
+Ini akan menjalankan Expo Metro Bundler. Sebuah QR code akan muncul di terminal Anda.
 
-#### Running on a Physical Device:
-1. Connect your phone to the same Wi-Fi network as your computer.
-2. Install the **Expo Go** app from the App Store (iOS) or Google Play Store (Android).
-3. **Android**: Scan the QR code shown in the terminal using the Expo Go built-in scanner.
-4. **iOS**: Scan the QR code using your default camera app, which will prompt you to open the project in Expo Go.
+#### Menjalankan di Perangkat Fisik:
+1. Hubungkan ponsel Anda ke jaringan Wi-Fi yang sama dengan komputer.
+2. Install aplikasi **Expo Go** dari App Store (iOS) atau Google Play Store (Android).
+3. **Android**: Scan QR code yang ditampilkan di terminal menggunakan pemindai bawaan Expo Go.
+4. **iOS**: Scan QR code menggunakan aplikasi kamera bawaan, yang akan meminta Anda untuk membuka proyek di Expo Go.
 
-#### Running on an Emulator:
-- Press **`a`** in your terminal to launch the app on an Android Emulator.
-- Press **`i`** in your terminal to launch the app on an iOS Simulator (macOS only).
-- Press **`w`** to run the application directly in your web browser.
+#### Menjalankan di Emulator:
+- Tekan **`a`** di terminal untuk menjalankan aplikasi di Android Emulator.
+- Tekan **`i`** di terminal untuk menjalankan aplikasi di iOS Simulator (hanya macOS).
+- Tekan **`w`** untuk menjalankan aplikasi langsung di browser web.
 
 ---
 
-## 📂 Project Structure
+## 📂 Struktur Proyek
 
 ```
 EduVaccine/
-├── app/                          # Expo Router file-based pages & layouts
-│   ├── _layout.tsx               # Root layout (handles fonts, providers, splash screens)
-│   ├── (tabs)/                   # Main navigation tabs group
-│   │   ├── _layout.tsx           # Tab bar customization and config
-│   │   ├── index.tsx             # Dashboard / Home Screen
-│   │   ├── edukasi.tsx           # Pusat Edukasi (Education Hub)
-│   │   ├── kalender.tsx          # Pengingat Imunisasi (Calendar/Schedule)
-│   │   └── profil.tsx            # Profil Bayi (Baby Profile Management)
-│   ├── konsultasi/               # Consultations routing group
-│   │   ├── _layout.tsx           # Consultation stack layout
-│   │   ├── index.tsx             # Doctor Directory
-│   │   └── chat.tsx              # Interactive Chat screen
-│   ├── pemantauan.tsx            # Growth Monitoring & Catatan
-│   ├── report.tsx                # Report & Analisis (User Analytics)
-│   ├── admin.tsx                 # Admin Control Panel
-│   ├── quiz.tsx                  # Post-test Interactive Quizzes
-│   └── feedback.tsx              # User Feedback forms
-├── src/                          # Shared Application Source
-│   ├── components/               # Custom UI Components
-│   │   ├── ui/                   # Reusable Primitive Elements (Cards, Buttons, Inputs)
-│   │   └── charts/               # Dynamic Custom Charts (Donut, Bar, Line)
-│   ├── constants/                # Colors, Layouts, Vaccine schedule configurations
-│   ├── services/                 # Database & Firebase integration layer
-│   ├── stores/                   # Zustand global stores (Auth, Baby, Notifications, etc.)
-│   ├── types/                    # Common TypeScript type definitions
-│   └── utils/                    # Dates, ages, and immunization scheduler helpers
-├── assets/                       # Static media and fonts
-│   └── fonts/                    # TTF Font files (Poppins, Work Sans)
-├── tailwind.config.js            # Tailwind styling design tokens
-├── babel.config.js               # Metro compiler configuration
-└── package.json                  # NPM packages and configurations
+├── app/                          # Halaman & layout berbasis file Expo Router
+│   ├── _layout.tsx               # Layout root (menangani font, provider, splash screen)
+│   ├── (tabs)/                   # Grup tab navigasi utama
+│   │   ├── _layout.tsx           # Kustomisasi dan konfigurasi tab bar
+│   │   ├── index.tsx             # Dashboard / Beranda
+│   │   ├── edukasi.tsx           # Pusat Edukasi
+│   │   ├── kalender.tsx          # Pengingat Imunisasi (Kalender/Jadwal)
+│   │   └── profil.tsx            # Profil Bayi (Manajemen Profil)
+│   ├── konsultasi/               # Grup routing Konsultasi
+│   │   ├── _layout.tsx           # Layout stack konsultasi
+│   │   ├── index.tsx             # Direktori Dokter
+│   │   └── chat.tsx              # Layar Chat Interaktif
+│   ├── pemantauan.tsx            # Pemantauan Tumbuh Kembang & Catatan
+│   ├── report.tsx                # Report & Analisis (Analitik Pengguna)
+│   ├── admin.tsx                 # Panel Kontrol Admin
+│   ├── quiz.tsx                  # Kuis Post-test Interaktif
+│   └── feedback.tsx              # Formulir Umpan Balik Pengguna
+├── src/                          # Sumber Aplikasi Bersama
+│   ├── components/               # Komponen UI Kustom
+│   │   ├── ui/                   # Elemen Primitif yang Dapat Digunakan Ulang (Card, Button, Input)
+│   │   └── charts/               # Grafik Kustom Dinamis (Donut, Bar, Line)
+│   ├── constants/                # Konfigurasi warna, layout, dan jadwal vaksin
+│   ├── services/                 # Lapisan integrasi Database & Firebase
+│   ├── stores/                   # Store global Zustand (Auth, Baby, Notifications, dll.)
+│   ├── types/                    # Definisi tipe TypeScript umum
+│   └── utils/                    # Helper tanggal, usia, dan jadwal imunisasi
+├── assets/                       # Media statis dan font
+│   └── fonts/                    # File font TTF (Poppins, Work Sans)
+├── tailwind.config.js            # Token desain styling Tailwind
+├── babel.config.js               # Konfigurasi compiler Metro
+└── package.json                  # Paket dan konfigurasi NPM
 ```
 
 ---
 
-## 🛠️ Main NPM Commands
+## 🛠️ Perintah NPM Utama
 
-| Command | Purpose |
+| Perintah | Fungsi |
 | :--- | :--- |
-| `npm start` | Launches the Expo Metro bundler server |
-| `npm run android` | Starts Metro bundler and attempts to launch in connected Android Emulator / Device |
-| `npm run ios` | Starts Metro bundler and attempts to launch in iOS Simulator |
-| `npm run web` | Launches the project in a web browser |
-| `npx tsc --noEmit` | Performs comprehensive static TypeScript checking to verify lack of errors |
+| `npm start` | Menjalankan server Expo Metro bundler |
+| `npm run android` | Memulai Metro bundler dan mencoba menjalankan di Emulator/Perangkat Android yang terhubung |
+| `npm run ios` | Memulai Metro bundler dan mencoba menjalankan di iOS Simulator |
+| `npm run web` | Menjalankan proyek di browser web |
+| `npx tsc --noEmit` | Melakukan pengecekan TypeScript statis secara menyeluruh untuk memverifikasi tidak adanya error |
 
 ---
 
-## 🤝 Project Design & Code Guidelines
+## 🤝 Panduan Desain & Kode Proyek
 
-- **Zero-Inline Comments**: To match production requirements, keep the source code clean and readable without writing unnecessary inline comments.
-- **Type Safety**: Strictly avoid using `any`. Make use of the schemas and types declared in `src/types/`.
-- **Styling**: Always write layout classes using NativeWind's utility patterns matching modern HSL palettes. Avoid hardcoding native margins/paddings when possible.
-- **State Flow**: Components should rely on Zustand hooks (e.g., `useBabyStore`, `useAuthStore`) to read and modify states. Any persistence must synchronize through the `src/services/` layer.
+- **Zero-Inline Comments**: Agar memenuhi standar produksi, jaga kode sumber tetap bersih dan mudah dibaca tanpa menulis komentar inline yang tidak perlu.
+- **Type Safety**: Hindari penggunaan `any` secara ketat. Gunakan skema dan tipe yang dideklarasikan di `src/types/`.
+- **Styling**: Selalu tulis kelas layout menggunakan pola utilitas NativeWind yang sesuai dengan palet HSL modern. Hindari hardcode margin/padding native jika memungkinkan.
+- **State Flow**: Komponen harus mengandalkan hook Zustand (misalnya `useBabyStore`, `useAuthStore`) untuk membaca dan memodifikasi state. Setiap persistensi harus disinkronkan melalui lapisan `src/services/`.
 
 ---
 
-## 📄 License
+## 📄 Lisensi
 
-This project is licensed under the MIT License - see the [LICENSE](file:///e:/EduVaccine/LICENSE) file for details.
+Proyek ini dilisensikan di bawah Lisensi MIT - lihat file [LICENSE](LICENSE) untuk detailnya.

@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,14 +7,36 @@ import { Card } from '../../src/components/ui/Card';
 import { Badge } from '../../src/components/ui/Badge';
 import { ProgressBar } from '../../src/components/ui/ProgressBar';
 import { LineChart } from '../../src/components/charts/LineChart';
+import { AppBar } from '../../src/components/ui/AppBar';
 import { useBabyStore } from '../../src/stores/useBabyStore';
 import { useVaccineStore } from '../../src/stores/useVaccineStore';
+import { useResponsive } from '../../src/utils/useResponsive';
 
 export default function DashboardScreen(): React.ReactElement {
   const router = useRouter();
   const baby = useBabyStore((state) => state.baby);
   const completionPercentage = useVaccineStore((state) => state.completionPercentage);
   const growthData = useVaccineStore((state) => state.growthData);
+  const { isTablet, px, numColumns } = useResponsive();
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(24)).current;
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 420,
+        useNativeDriver: true,
+      }),
+      Animated.spring(slideAnim, {
+        toValue: 0,
+        useNativeDriver: true,
+        speed: 12,
+        bounciness: 4,
+      }),
+    ]).start();
+  }, [fadeAnim, slideAnim]);
 
   const quickActions = [
     {
@@ -25,7 +47,7 @@ export default function DashboardScreen(): React.ReactElement {
     },
     {
       icon: 'calendar-outline' as const,
-      label: 'Jadwal\nImunisasi',
+      label: 'Jadwal Imunisasi',
       color: '#E8F4F8',
       onPress: () => router.push('/kalender'),
     },
@@ -37,38 +59,44 @@ export default function DashboardScreen(): React.ReactElement {
     },
     {
       icon: 'time-outline' as const,
-      label: 'Riwayat\nImunisasi',
+      label: 'Riwayat Imunisasi',
       color: '#E8F4F8',
       onPress: () => router.push('/pemantauan'),
     },
   ];
 
+  const cardWidth = numColumns === 4 ? '24%' : '48%';
+
   return (
     <SafeAreaView className="flex-1 bg-surface-secondary">
+      <AppBar hasNotification />
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-        <View className="px-5 pt-4 pb-6">
-          <View className="flex-row items-center justify-between mb-5">
-            <View className="flex-row items-center">
-              <View className="w-12 h-12 rounded-full bg-accent items-center justify-center mr-3 overflow-hidden">
-                <Ionicons name="happy-outline" size={28} color="#1A6B8A" />
-              </View>
-              <View>
-                <Text className="font-worksans text-sm text-content-secondary">
-                  Selamat datang kembali,
-                </Text>
-                <Text className="font-poppins-bold text-lg text-primary">
-                  Perjalanan {baby?.name || 'Bayi'}
-                </Text>
-              </View>
-            </View>
-            <TouchableOpacity className="relative">
-              <Ionicons name="notifications-outline" size={26} color="#1A2B3C" />
-              <View className="absolute -top-1 -right-1 w-3 h-3 bg-danger rounded-full border-2 border-white" />
-            </TouchableOpacity>
+        <Animated.View
+          style={{
+            opacity: fadeAnim,
+            transform: [{ translateY: slideAnim }],
+            paddingHorizontal: px,
+            paddingTop: 8,
+            paddingBottom: 24,
+          }}
+        >
+          <View className="mb-2">
+            <Text
+              style={{ fontSize: isTablet ? 16 : 14 }}
+              className="font-worksans text-content-secondary"
+            >
+              Selamat datang kembali,
+            </Text>
+            <Text
+              style={{ fontSize: isTablet ? 24 : 18 }}
+              className="font-poppins-bold text-primary"
+            >
+              Perjalanan {baby?.name || 'Bayi'}
+            </Text>
           </View>
 
-          <TouchableOpacity activeOpacity={0.9}>
-            <Card variant="default" padding="large" className="bg-accent mb-5">
+          <TouchableOpacity activeOpacity={0.9} className="mb-5 mt-3">
+            <Card variant="default" padding="large" className="bg-accent">
               <View className="flex-row items-start">
                 <View className="w-12 h-12 rounded-full bg-white/60 items-center justify-center mr-3">
                   <Ionicons name="medical-outline" size={24} color="#1A6B8A" />
@@ -77,7 +105,10 @@ export default function DashboardScreen(): React.ReactElement {
                   <Text className="font-worksans-semibold text-xs text-content-secondary uppercase tracking-wider mb-1">
                     JADWAL MENDATANG
                   </Text>
-                  <Text className="font-poppins-bold text-xl text-content-primary mb-1">
+                  <Text
+                    style={{ fontSize: isTablet ? 20 : 17 }}
+                    className="font-poppins-bold text-content-primary mb-1"
+                  >
                     Imunisasi 6-Bulan dalam 4 hari.
                   </Text>
                   <View className="flex-row items-center">
@@ -93,7 +124,10 @@ export default function DashboardScreen(): React.ReactElement {
 
           <View className="mb-5">
             <View className="flex-row items-center justify-between mb-3">
-              <Text className="font-poppins-bold text-xl text-content-primary">
+              <Text
+                style={{ fontSize: isTablet ? 20 : 18 }}
+                className="font-poppins-bold text-content-primary"
+              >
                 Status Imunisasi
               </Text>
               <Badge text="Sesuai Jadwal" variant="primary" />
@@ -104,7 +138,10 @@ export default function DashboardScreen(): React.ReactElement {
           <Card variant="default" padding="large" className="mb-5 bg-primary-50">
             <View className="flex-row items-center justify-between mb-3">
               <View>
-                <Text className="font-poppins-bold text-xl text-content-primary">
+                <Text
+                  style={{ fontSize: isTablet ? 20 : 18 }}
+                  className="font-poppins-bold text-content-primary"
+                >
                   Ringkasan Pertumbuhan
                 </Text>
                 <Text className="font-worksans text-sm text-content-secondary">
@@ -118,7 +155,10 @@ export default function DashboardScreen(): React.ReactElement {
             <LineChart data={growthData} />
           </Card>
 
-          <Text className="font-poppins-bold text-xl text-content-primary mb-4">
+          <Text
+            style={{ fontSize: isTablet ? 20 : 18 }}
+            className="font-poppins-bold text-content-primary mb-4"
+          >
             Aksi Cepat
           </Text>
           <View className="flex-row flex-wrap justify-between">
@@ -127,20 +167,23 @@ export default function DashboardScreen(): React.ReactElement {
                 key={index}
                 onPress={action.onPress}
                 activeOpacity={0.8}
-                className="w-[48%] mb-3"
+                style={{ width: cardWidth, marginBottom: 12 }}
               >
                 <Card variant="default" padding="large">
                   <View className="w-12 h-12 rounded-full bg-primary-50 items-center justify-center mb-3">
-                    <Ionicons name={action.icon} size={24} color="#1A6B8A" />
+                    <Ionicons name={action.icon} size={isTablet ? 28 : 24} color="#1A6B8A" />
                   </View>
-                  <Text className="font-poppins-semibold text-sm text-content-primary">
+                  <Text
+                    style={{ fontSize: isTablet ? 14 : 13 }}
+                    className="font-poppins-semibold text-content-primary"
+                  >
                     {action.label}
                   </Text>
                 </Card>
               </TouchableOpacity>
             ))}
           </View>
-        </View>
+        </Animated.View>
       </ScrollView>
     </SafeAreaView>
   );

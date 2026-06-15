@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { Card } from '../../src/components/ui/Card';
 import { Toggle } from '../../src/components/ui/Toggle';
+import { AppBar } from '../../src/components/ui/AppBar';
 import { useNotificationStore } from '../../src/stores/useNotificationStore';
+import { useResponsive } from '../../src/utils/useResponsive';
 
 const DAYS_OF_WEEK = ['M', 'S', 'S', 'R', 'K', 'J', 'S'];
 
@@ -41,9 +43,20 @@ export default function KalenderScreen(): React.ReactElement {
   const h1Enabled = useNotificationStore((state) => state.h1Enabled);
   const toggleH7 = useNotificationStore((state) => state.toggleH7);
   const toggleH1 = useNotificationStore((state) => state.toggleH1);
+  const { isTablet, px } = useResponsive();
 
   const [currentMonth] = useState('November 2023');
   const calendarDays = generateCalendarDays();
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(24)).current;
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(fadeAnim, { toValue: 1, duration: 420, useNativeDriver: true }),
+      Animated.spring(slideAnim, { toValue: 0, useNativeDriver: true, speed: 12, bounciness: 4 }),
+    ]).start();
+  }, [fadeAnim, slideAnim]);
 
   const upcomingSchedule = [
     {
@@ -66,23 +79,25 @@ export default function KalenderScreen(): React.ReactElement {
     },
   ];
 
+  const calendarDayCellSize = isTablet ? 48 : 36;
+
   return (
     <SafeAreaView className="flex-1 bg-surface-secondary">
+      <AppBar hasNotification />
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-        <View className="px-5 pt-4 pb-6">
-          <View className="flex-row items-center justify-between mb-4">
-            <View className="flex-row items-center">
-              <View className="w-10 h-10 rounded-full bg-primary-50 items-center justify-center mr-3">
-                <Ionicons name="happy-outline" size={22} color="#1A6B8A" />
-              </View>
-              <Text className="font-poppins-bold text-2xl text-primary">eduVaccin</Text>
-            </View>
-            <TouchableOpacity>
-              <Ionicons name="notifications-outline" size={26} color="#1A2B3C" />
-            </TouchableOpacity>
-          </View>
-
-          <Text className="font-poppins-bold text-2xl text-content-primary mb-1">
+        <Animated.View
+          style={{
+            opacity: fadeAnim,
+            transform: [{ translateY: slideAnim }],
+            paddingHorizontal: px,
+            paddingTop: 8,
+            paddingBottom: 24,
+          }}
+        >
+          <Text
+            style={{ fontSize: isTablet ? 26 : 22 }}
+            className="font-poppins-bold text-content-primary mb-1"
+          >
             Pengingat Imunisasi
           </Text>
           <Text className="font-worksans text-base text-content-secondary mb-5">
@@ -91,9 +106,7 @@ export default function KalenderScreen(): React.ReactElement {
 
           <Card variant="default" padding="large" className="mb-5">
             <View className="flex-row items-center justify-between mb-4">
-              <Text className="font-poppins-bold text-lg text-primary">
-                {currentMonth}
-              </Text>
+              <Text className="font-poppins-bold text-lg text-primary">{currentMonth}</Text>
               <View className="flex-row">
                 <TouchableOpacity className="w-8 h-8 rounded-full bg-surface-muted items-center justify-center mr-2">
                   <Ionicons name="chevron-back" size={18} color="#5A6B7C" />
@@ -108,7 +121,8 @@ export default function KalenderScreen(): React.ReactElement {
               {DAYS_OF_WEEK.map((day, index) => (
                 <Text
                   key={index}
-                  className="font-worksans-semibold text-sm text-content-muted w-10 text-center"
+                  style={{ width: '14.28%', textAlign: 'center', fontSize: isTablet ? 14 : 12 }}
+                  className="font-worksans-semibold text-content-muted"
                 >
                   {day}
                 </Text>
@@ -117,23 +131,27 @@ export default function KalenderScreen(): React.ReactElement {
 
             <View className="flex-row flex-wrap">
               {calendarDays.map((item, index) => (
-                <TouchableOpacity
-                  key={index}
-                  className="w-[14.28%] items-center py-1.5"
-                >
+                <TouchableOpacity key={index} style={{ width: '14.28%', alignItems: 'center', paddingVertical: 4 }}>
                   <View
-                    className={`w-9 h-9 rounded-full items-center justify-center ${
-                      item.isToday ? 'bg-primary' : ''
-                    }`}
+                    style={{
+                      width: calendarDayCellSize,
+                      height: calendarDayCellSize,
+                      borderRadius: calendarDayCellSize / 2,
+                      backgroundColor: item.isToday ? '#1A6B8A' : 'transparent',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
                   >
                     <Text
-                      className={`font-worksans-medium text-sm ${
-                        item.isToday
-                          ? 'text-white'
+                      style={{
+                        fontSize: isTablet ? 15 : 13,
+                        color: item.isToday
+                          ? '#FFFFFF'
                           : item.isCurrentMonth
-                          ? 'text-content-primary'
-                          : 'text-content-muted'
-                      }`}
+                          ? '#1A2B3C'
+                          : '#8A9BAC',
+                        fontFamily: 'WorkSans_500Medium',
+                      }}
                     >
                       {item.day}
                     </Text>
@@ -148,51 +166,62 @@ export default function KalenderScreen(): React.ReactElement {
 
           <View className="flex-row items-center mb-4">
             <Ionicons name="medical-outline" size={22} color="#1A6B8A" />
-            <Text className="font-poppins-bold text-xl text-content-primary ml-2">
+            <Text
+              style={{ fontSize: isTablet ? 20 : 18 }}
+              className="font-poppins-bold text-content-primary ml-2"
+            >
               Jadwal Berikutnya
             </Text>
           </View>
 
-          {upcomingSchedule.map((item, index) => (
-            <Card
-              key={index}
-              variant="default"
-              padding="medium"
-              className="mb-3"
-              style={{ backgroundColor: item.bgColor }}
-            >
-              <View className="flex-row">
-                <View
-                  className="w-14 h-14 rounded-xl items-center justify-center mr-3"
-                  style={{ backgroundColor: item.borderColor }}
-                >
-                  <Text className="font-worksans text-xs text-white">{item.month}</Text>
-                  <Text className="font-poppins-bold text-lg text-white">{item.day}</Text>
+          <View className={isTablet ? 'flex-row flex-wrap justify-between' : ''}>
+            {upcomingSchedule.map((item, index) => (
+              <Card
+                key={index}
+                variant="default"
+                padding="medium"
+                className="mb-3"
+                style={{
+                  backgroundColor: item.bgColor,
+                  ...(isTablet ? { width: '48%' } : {}),
+                }}
+              >
+                <View className="flex-row">
+                  <View
+                    className="w-14 h-14 rounded-xl items-center justify-center mr-3"
+                    style={{ backgroundColor: item.borderColor }}
+                  >
+                    <Text className="font-worksans text-xs text-white">{item.month}</Text>
+                    <Text className="font-poppins-bold text-lg text-white">{item.day}</Text>
+                  </View>
+                  <View className="flex-1">
+                    <Text className="font-poppins-bold text-base text-content-primary">
+                      {item.name}
+                    </Text>
+                    <Text className="font-worksans text-sm text-content-secondary">
+                      {item.description}
+                    </Text>
+                    {item.countdown ? (
+                      <View className="flex-row items-center mt-1">
+                        <Ionicons name="time-outline" size={14} color="#1A6B8A" />
+                        <Text className="font-worksans-medium text-xs text-primary ml-1">
+                          {item.countdown}
+                        </Text>
+                      </View>
+                    ) : null}
+                  </View>
                 </View>
-                <View className="flex-1">
-                  <Text className="font-poppins-bold text-base text-content-primary">
-                    {item.name}
-                  </Text>
-                  <Text className="font-worksans text-sm text-content-secondary">
-                    {item.description}
-                  </Text>
-                  {item.countdown ? (
-                    <View className="flex-row items-center mt-1">
-                      <Ionicons name="time-outline" size={14} color="#1A6B8A" />
-                      <Text className="font-worksans-medium text-xs text-primary ml-1">
-                        {item.countdown}
-                      </Text>
-                    </View>
-                  ) : null}
-                </View>
-              </View>
-            </Card>
-          ))}
+              </Card>
+            ))}
+          </View>
 
           <Card variant="default" padding="large" className="mt-3">
             <View className="flex-row items-center mb-4">
               <Ionicons name="alarm-outline" size={22} color="#1A6B8A" />
-              <Text className="font-poppins-bold text-xl text-content-primary ml-2">
+              <Text
+                style={{ fontSize: isTablet ? 20 : 18 }}
+                className="font-poppins-bold text-content-primary ml-2"
+              >
                 Pengaturan Alarm
               </Text>
             </View>
@@ -230,7 +259,7 @@ export default function KalenderScreen(): React.ReactElement {
               </TouchableOpacity>
             </View>
           </Card>
-        </View>
+        </Animated.View>
       </ScrollView>
     </SafeAreaView>
   );

@@ -2,13 +2,34 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { View, Text, Platform } from 'react-native';
+import { useResponsive } from '../../src/utils/useResponsive';
 
-function TabIcon({ name, label, focused }: { name: keyof typeof Ionicons.glyphMap; label: string; focused: boolean }): React.ReactElement {
+function TabIcon({
+  name,
+  label,
+  focused,
+}: {
+  name: keyof typeof Ionicons.glyphMap;
+  label: string;
+  focused: boolean;
+}): React.ReactElement {
+  const { isTablet, tabIconSize } = useResponsive();
+
+  const bubbleSize = isTablet ? 52 : 44;
+  const bubbleNegMargin = isTablet ? -6 : -4;
+
   return (
-    <View className="items-center justify-center pt-2">
+    <View className="items-center justify-center" style={{ paddingTop: 4, minWidth: isTablet ? 80 : 56 }}>
       {focused ? (
-        <View className="bg-primary rounded-full w-14 h-14 items-center justify-center -mt-4"
+        <View
           style={{
+            width: bubbleSize,
+            height: bubbleSize,
+            borderRadius: bubbleSize / 2,
+            backgroundColor: '#1A6B8A',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: bubbleNegMargin,
             shadowColor: '#1A6B8A',
             shadowOffset: { width: 0, height: 4 },
             shadowOpacity: 0.3,
@@ -16,15 +37,20 @@ function TabIcon({ name, label, focused }: { name: keyof typeof Ionicons.glyphMa
             elevation: 8,
           }}
         >
-          <Ionicons name={name} size={24} color="#FFFFFF" />
+          <Ionicons name={name} size={tabIconSize} color="#FFFFFF" />
         </View>
       ) : (
-        <Ionicons name={name} size={24} color="#8A9BAC" />
+        <Ionicons name={name} size={tabIconSize} color="#8A9BAC" />
       )}
       <Text
-        className={`font-worksans-medium text-xs mt-1 ${
-          focused ? 'text-primary' : 'text-content-muted'
-        }`}
+        numberOfLines={1}
+        adjustsFontSizeToFit
+        style={{
+          fontFamily: 'WorkSans_500Medium',
+          fontSize: isTablet ? 12 : 10,
+          marginTop: 3,
+          color: focused ? '#1A6B8A' : '#8A9BAC',
+        }}
       >
         {label}
       </Text>
@@ -33,6 +59,8 @@ function TabIcon({ name, label, focused }: { name: keyof typeof Ionicons.glyphMa
 }
 
 export default function TabLayout(): React.ReactElement {
+  const { isTablet, tabBarHeight } = useResponsive();
+
   return (
     <Tabs
       screenOptions={{
@@ -41,8 +69,8 @@ export default function TabLayout(): React.ReactElement {
         tabBarStyle: {
           backgroundColor: '#FFFFFF',
           borderTopWidth: 0,
-          height: Platform.OS === 'ios' ? 88 : 70,
-          paddingBottom: Platform.OS === 'ios' ? 20 : 8,
+          height: Platform.OS === 'ios' ? tabBarHeight + 20 : tabBarHeight,
+          paddingBottom: Platform.OS === 'ios' ? 24 : 8,
           shadowColor: '#000',
           shadowOffset: { width: 0, height: -2 },
           shadowOpacity: 0.06,
@@ -71,7 +99,7 @@ export default function TabLayout(): React.ReactElement {
         name="kalender"
         options={{
           tabBarIcon: ({ focused }) => (
-            <TabIcon name="calendar-outline" label="Kalender" focused={focused} />
+            <TabIcon name="calendar-outline" label="Jadwal" focused={focused} />
           ),
         }}
       />
